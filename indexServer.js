@@ -21,7 +21,7 @@ app.get('/api/slack', (req, res) => {
     })
 })
 
-// pour faire en sorte que toutes les adresses etc en dehors des API au dessus sur index.js de react
+// pour faire en sorte que toutes les adresses etc en dehors des APIs au dessus sur index.js de react
 app.get('/*', (req, res) => {
     //pour etre sûre que l'adresse relative est toujours bonne en utilisant path fournit par node avec join qui permet de joindre plusieurs adresses, on lui dit "depuis __dirname (qui est dynamique et permet de cibler automatiquement) tu envoies tout sur l'ondex html du build de react"
     res.sendFile(path.join(__dirname, './frontend/build/index.html'))

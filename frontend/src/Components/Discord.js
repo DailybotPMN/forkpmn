@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Navbar from './Navbar';
 
  const Discord = () => {
     const [message, setMsg] = useState('');
@@ -38,9 +39,10 @@ import React, { useState } from 'react'
 
     return (
         <div>
+          <Navbar/>
             <button className='button' onClick={handleClick}>
                 <div className='pattern'>
-                <div class="target inner bg1"></div>
+                <div className="target inner bg1"></div>
                 </div>
                 <div className='text'>
                 Téléchargez Discord

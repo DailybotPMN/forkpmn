@@ -1,22 +1,20 @@
 import React from 'react';
-import './App.css';
-import Slack from './Components/Slack';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './Components/Home';
 import Discord from './Components/Discord';
-import './Components/components.css';
+import Slack from './Components/Slack';
 
-const App = () => {
-  
-  return (
-    <div className="App">
-      <header className="App-header">
-      <p>Bienvenue !</p>
-        <img src='/icon.png' alt='bot-img'/>
+export default function App() {
+    return (
+        <Router> 
+          <Routes>
+            <Route path="/" element={<Home/>} />
+            <Route path="/Discord"element={<Discord/>} />
+            <Route path="/Slack" element={<Slack/>} />
+            {/* <Route exact path="/Contact" element={<Contact/>} /> */}
+            {/* <Route component={notfound} /> */}
+          </Routes>
+        </Router>
 
-        <Discord/>
-        <Slack/>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+    );
+};

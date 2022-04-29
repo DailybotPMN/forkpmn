@@ -1,19 +1,22 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
-.App-header {
+.App-content {
   background-color: #282c34;
-  min-height: 100vh;
+  max-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content:space-between;
   font-size: calc(10px + 2vmin);
   color: white;
+  padding: 30px;
 }
 
 img {
  padding: 40px;
-
+width: 50%;
 }
