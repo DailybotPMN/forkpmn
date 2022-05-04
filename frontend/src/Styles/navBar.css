@@ -1,0 +1,32 @@
+.navBar {
+    display: flex;
+    flex-direction:row;
+    padding: 15px;
+    justify-content: center;
+    border-bottom: solid 1px;
+}
+
+.logo {
+    position: absolute;
+    left: 10px;
+}
+
+.logoNav {
+    width: 30px;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.navigation {
+    display: flex;
+    flex-direction: row;
+}
+
+@media screen and (max-width: 750px) {
+    .navigation {
+        display: none;
+    }
+    .navBar {
+        height: 50px;
+    }
+}
