@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import Navbar from './Navbar';
+import Navbar from '../Components/Navbar';
+import '../Styles/button.css';
 
  const Discord = () => {
     const [message, setMsg] = useState('');
@@ -38,17 +39,19 @@ import Navbar from './Navbar';
     });
 
     return (
-        <div>
+        <div className='discordPage'>
           <Navbar/>
+          <div className='secondaryPages'>
             <button className='button' onClick={handleClick}>
                 <div className='pattern'>
-                <div className="target inner bg1"></div>
+                <div className='target inner bg1'></div>
                 </div>
                 <div className='text'>
                 Téléchargez Discord
                 </div>
             </button>
             <p>{message}</p>
+            </div>
         </div>
     )
 }

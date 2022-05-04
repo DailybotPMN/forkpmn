@@ -1,12 +1,12 @@
 import React from 'react';
-import Navbar from './Navbar';
+import Navbar from '../Components/Navbar';
 
 const Contact = () => {
     return (
         <div>
             <Navbar/>
             <form>
-                <a>Nom: </a>
+                <p>Nom: </p>
             </form>
         </div>
     );

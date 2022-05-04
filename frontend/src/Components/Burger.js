@@ -1,13 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
+import '../Styles/burger.css';
 
 export default function Burger() {
 
     const [showLinks, setShowLinks] = useState(false)
     const active_burger = () => {
         setShowLinks(!showLinks)
-        console.log("ça click")
+        // console.log("ça click")
     }
 
   return (

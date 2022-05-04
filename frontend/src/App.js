@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './Components/Home';
-import Discord from './Components/Discord';
-import Slack from './Components/Slack';
+import Home from './Layouts/Home';
+import Discord from './Layouts/Discord';
+import Slack from './Layouts/Slack';
+import Contact from './Layouts/Contact';
 
 export default function App() {
     return (
@@ -11,10 +12,9 @@ export default function App() {
             <Route path="/" element={<Home/>} />
             <Route path="/Discord"element={<Discord/>} />
             <Route path="/Slack" element={<Slack/>} />
-            {/* <Route exact path="/Contact" element={<Contact/>} /> */}
+            <Route path="/Contact" element={<Contact/>} />
             {/* <Route component={notfound} /> */}
           </Routes>
         </Router>
-
     );
 };
