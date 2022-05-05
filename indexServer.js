@@ -70,18 +70,27 @@ app.listen(PORT, () => {
 //une fois l'application montée, le bot est connecté et communique avec le serveur
 const {App} = require('@slack/bolt');
 const { WebClient } = require('@slack/web-api');
+// const { FileInstallationStore } = require('@slack/oauth');
+
 require('dotenv').config();
 
 const botSlack = new App ({
     token : process.env.SLACK_ACCESS_TOKEN,
     signingSecret: process.env.SLACK_SIGNING_SECRET,
+
     socketMode : true, //initialisation du socket mode pour recevoir
     appToken : process.env.SOCKET_TOKEN,
+
+    // clientId : process.env.SLACK_CLEINT_ID,
+    // clientSecret : process.env.SLACK_CLIENT_SECRET,
+    // stateSecret : 'my-state-secret',
+    // scopes : ['channels:read', 'chat:write', 'app_mentions:read', 'commands', 'channels:history'],
+    // installationStore: new FileInstallationStore(),
 });
 
 const web = new WebClient(process.env.SLACK_BOT_TOKEN);
 
-//on lance le bot sur le port 3000 ou 5000 et on prevoit d'afficher le details de l'erreur dans le console
+//on lance le bot avec la methode start sur le port 3000 ou 5000 et on prevoit d'afficher le details de l'erreur dans le console
 (async () => {
     await botSlack.start(process.env.PORT || 3000)
     .catch(console.error)
@@ -90,12 +99,27 @@ const web = new WebClient(process.env.SLACK_BOT_TOKEN);
     sendMessage(process.env.SLACK_CHANNEL, 'Bonjour !')
 })();
 
+//on paramètre la rep du bot quand il est mentionné
+botSlack.event('app_mention', async ({event, web}) => {
+    try {
+        //on appel la methode chat.postMessage pr param rep dans channel
+        const result = await web.chat.postMessage({
+            channel: event.channel,
+            text: `Que puis-je faire pour toi <@${event.user} ?`
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+
 //on paramètre le bot pour qu'il écoute un message posté sur le channel et pour qu'il reponde via say()
 botSlack.message('hello', async ({ message, say }) => {
     await say(`Bonjour <@${message.user}>, nouveau Padawan tu es maintenant`);
   });
 
-  //on crée la fonction permettant d'envoyer un message lorsque le bot se connecte (est lancé)
+
+//on crée la fonction permettant d'envoyer un message lorsque le bot se connecte (est lancé)
 async function sendMessage (channel, message) {
     await web.chat.postMessage({
         channel: channel,
