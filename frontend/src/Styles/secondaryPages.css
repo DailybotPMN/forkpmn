@@ -1,0 +1,25 @@
+.slackPage {
+    height: 100vh;
+}
+
+.secondaryPages {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    background-color: #282c34;
+}
+
+form {
+    color: aliceblue;
+}
+
+.description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 60%;
+    padding: 30px;
+    color: aliceblue;
+    margin: 0 auto ;
+}

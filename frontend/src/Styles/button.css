@@ -7,7 +7,7 @@
     color: black;
     cursor: pointer;
     font-size: 0.60em;
-    margin-top: 20px;
+    margin: 10px;
     outline: none;
     overflow: hidden;
     position: relative;
@@ -43,12 +43,19 @@
     opacity: 0.7;
     transition: opacity 100ms;
   }
-
-  @media screen and (min-width: 750px) {
+  @media screen and (max-width: 375px) {
+    .button {
+      width: 250px;
+      padding: 0;
+      height: 45px;
+      margin: 10px;
+    }
+  }
+  @media screen and (min-width: 749px) {
     .button {
       width: 400px;
       padding: 0;
       height: 80px;
-      margin: 25px;
+      /* margin: 25px; */
     }
   }
