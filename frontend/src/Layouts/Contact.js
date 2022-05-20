@@ -1,13 +1,18 @@
 import React from 'react';
+import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
+import '../Styles/secondaryPages.css';
 
 const Contact = () => {
     return (
-        <div>
+        <div className='contactPage'>
             <Navbar/>
-            <form>
-                <p>Nom: </p>
-            </form>
+            <div className='secondaryPages'>
+                <form>
+                    <p>Nom: </p>
+                </form>
+            </div>
+            <Footer/>
         </div>
     );
 };

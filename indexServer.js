@@ -10,6 +10,8 @@ const app = express(); //on créé app pour démarrer express
 
 app.use(express.json()); // on indique à express d'utiliser les fichiers json
 app.use(express.static('frontend/build')); // on indique que l'on va utiliser des fichiers static
+
+//Pour sécuriser les échanges
 app.use(cookieParser()); //on parse les cookies
 app.use(express.urlencoded({extended: false}));
 
@@ -25,16 +27,17 @@ app.get('/api/discord', (req, res) => {
 //     res.send({
 //         message: 'Coucou Slacki'
 //     })
+//     console.log(res)
 // })
 
 // pour faire en sorte que toutes les adresses etc en dehors des APIs au dessus renvoient sur index.js de react
 app.get('/*', (req, res) => {
     //pour etre sûre que l'adresse relative est toujours bonne en utilisant path fournit par node avec join qui permet de joindre plusieurs adresses, on lui dit "depuis __dirname (qui est dynamique et permet de cibler automatiquement) tu envoies tout sur l'ondex html du build de react"
     res.sendFile(path.join(__dirname, './frontend/build/index.html'))
-     // Cookies that have not been signed
-  console.log('Cookies: ', req.cookies)
-  // Cookies that have been signed
-  console.log('Signed Cookies: ', req.signedCookies)
+    // Cookies that have not been signed
+    console.log('Cookies: ', req.cookies)
+   // Cookies that have been signed
+    console.log('Signed Cookies: ', req.signedCookies)
 })
 
 app.listen(PORT, () => {
@@ -69,7 +72,7 @@ app.listen(PORT, () => {
 /*------------------------------------BOT SLACK------------------------------------*/
 //une fois l'application montée, le bot est connecté et communique avec le serveur
 const {App} = require('@slack/bolt');
-const { WebClient } = require('@slack/web-api');
+const { WebClient, LogLevel } = require('@slack/web-api');
 // const { FileInstallationStore } = require('@slack/oauth');
 
 require('dotenv').config();
@@ -77,10 +80,8 @@ require('dotenv').config();
 const botSlack = new App ({
     token : process.env.SLACK_ACCESS_TOKEN,
     signingSecret: process.env.SLACK_SIGNING_SECRET,
-
     socketMode : true, //initialisation du socket mode pour recevoir
     appToken : process.env.SOCKET_TOKEN,
-
     // clientId : process.env.SLACK_CLEINT_ID,
     // clientSecret : process.env.SLACK_CLIENT_SECRET,
     // stateSecret : 'my-state-secret',
@@ -88,7 +89,51 @@ const botSlack = new App ({
     // installationStore: new FileInstallationStore(),
 });
 
-const web = new WebClient(process.env.SLACK_BOT_TOKEN);
+const web = new WebClient(process.env.SLACK_BOT_TOKEN,{ logLevel: LogLevel.DEBUG});
+const channelId = process.env.SLACK_CHANNEL;
+
+
+async function publishMessage() {  
+    console.log("test1")
+    if (botSlack.message === 'hello') {
+        sendMessage (channelId, 'Comment puis-je t\'aider ?')
+    }
+    try {
+        console.log("test2")
+        await web.chat.postMessage({
+            channel : channelId,
+            text : `Bonjour , nouveau Padawan tu es maintenant`
+        });
+        console.log("test3")
+    }
+    catch (error) {
+        console.error(error);
+      }
+
+    }
+
+publishMessage("#test", "");
+
+
+//on paramètre le bot pour qu'il écoute un message posté sur le channel et pour qu'il reponde via say()
+botSlack.message('hello', async ({ message, say }) => {
+    /*si on resout hello alors say dit: */
+    await say(`Bonjour <@${message.user}>, nouveau Padawan tu es maintenant`)
+  });
+
+//on paramètre la rep du bot quand il est mentionné
+// botSlack.event('app_mention', async ({event, web}) => {
+//     try {
+//         //on appelle la methode chat.postMessage pr param rep dans channel
+//         await web.chat.postMessage({
+//             channel: event.channel,
+//             text: `Que puis-je faire pour toi <@${event.user} ?`
+//         });
+//     }
+//     catch (error) {
+//         console.log(error);
+//     }
+// });
 
 //on lance le bot avec la methode start sur le port 3000 ou 5000 et on prevoit d'afficher le details de l'erreur dans le console
 (async () => {
@@ -96,28 +141,8 @@ const web = new WebClient(process.env.SLACK_BOT_TOKEN);
     .catch(console.error)
     //si tout fonctionne bien:
     console.log("Slacki ok")
-    sendMessage(process.env.SLACK_CHANNEL, 'Bonjour !')
+    /*sendMessage(process.env.SLACK_CHANNEL, 'Bonjour !')*/
 })();
-
-//on paramètre la rep du bot quand il est mentionné
-botSlack.event('app_mention', async ({event, web}) => {
-    try {
-        //on appel la methode chat.postMessage pr param rep dans channel
-        const result = await web.chat.postMessage({
-            channel: event.channel,
-            text: `Que puis-je faire pour toi <@${event.user} ?`
-        });
-    }
-    catch (error) {
-        console.log(error);
-    }
-});
-
-//on paramètre le bot pour qu'il écoute un message posté sur le channel et pour qu'il reponde via say()
-botSlack.message('hello', async ({ message, say }) => {
-    await say(`Bonjour <@${message.user}>, nouveau Padawan tu es maintenant`);
-  });
-
 
 //on crée la fonction permettant d'envoyer un message lorsque le bot se connecte (est lancé)
 async function sendMessage (channel, message) {
@@ -126,3 +151,4 @@ async function sendMessage (channel, message) {
         text: message,
     })
 }
+
