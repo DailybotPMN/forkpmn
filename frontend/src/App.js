@@ -13,7 +13,6 @@ export default function App() {
             <Route path="/Discord"element={<Discord/>} />
             <Route path="/Slack" element={<Slack/>} />
             <Route path="/Contact" element={<Contact/>} />
-            {/* <Route component={notfound} /> */}
           </Routes>
         </Router>
     );

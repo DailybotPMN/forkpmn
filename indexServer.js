@@ -93,17 +93,27 @@ const web = new WebClient(process.env.SLACK_BOT_TOKEN,{ logLevel: LogLevel.DEBUG
 const channelId = process.env.SLACK_CHANNEL;
 
 
+
+
+
 async function publishMessage() {  
     console.log("test1")
     if (botSlack.message === 'hello') {
         sendMessage (channelId, 'Comment puis-je t\'aider ?')
     }
+
     try {
+        // const result = await botSlack.message === 'hello'({
+        //     text : `Comment puis-je t'aider ?`
+        // });
+        // console.log(result)
+
         console.log("test2")
-        await web.chat.postMessage({
+        const result2 = await web.chat.postMessage({
             channel : channelId,
             text : `Bonjour , nouveau Padawan tu es maintenant`
         });
+        console.log(result2)
         console.log("test3")
     }
     catch (error) {
@@ -112,13 +122,13 @@ async function publishMessage() {
 
     }
 
-publishMessage("#test", "");
+publishMessage(channelId, "");
 
 
 //on paramètre le bot pour qu'il écoute un message posté sur le channel et pour qu'il reponde via say()
 botSlack.message('hello', async ({ message, say }) => {
     /*si on resout hello alors say dit: */
-    await say(`Bonjour <@${message.user}>, nouveau Padawan tu es maintenant`)
+    await web.chat.postMessage(`Bonjour <@${message.user}>, nouveau Padawan tu es maintenant`)
   });
 
 //on paramètre la rep du bot quand il est mentionné
