@@ -3,48 +3,12 @@ import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
 import '../Styles/secondaryPages.css';
 
- const Slack = () => {
-
-    // const buttons = document.querySelectorAll('.button');
-    // buttons.forEach((button) => {
-    //   let target = button.querySelector('.target');
-    //   function handleMove(e) {
-    //     const x = -50 + (e.pageX - button.offsetLeft - 300 / 2) / 3;
-    //     const y = -10 + (e.pageY - button.offsetTop - 100 / 2) / 3;
-    
-    //     target.style.setProperty('--x', `${ x }px`)
-    //     target.style.setProperty('--y', `${ y }px`)
-    //   }
-    //   button.addEventListener('mousemove', (e) => {
-    //     handleMove(e);
-    //   });
-    //   button.addEventListener('touchmove', (e) => {
-    //     handleMove(e.changedTouches[0]);
-    //   });
-    // });
-    
-    // const [message, setMsg] = useState('');
-    // const handleClick = async () => {
-    //   console.log('click');
-  
-    //   fetch('/api/slack')
-    //     .then((response) => {
-    //       return response.json();
-    //     })
-    //     .catch((error) => {
-    //       console.error(`Oh no! ${error}`)
-    //     })
-    //     .then(json => setMsg(json.message)) 
-    //     .catch((error) => {
-    //       console.error(`Ruh-roh! Couldn't convert the json: ${error}`)
-    //     });
-    //   ;
-    // };
+const Slack = () => {
 
     return (
         <div className='slackPage'>
           <Navbar/>
-          <div className='secondaryPages'>
+          <div className='secondaryPages vh'>
             <div className='description'>
               <p>Tu veux téléchargez le bot afin qu'il t'aide au quotidien sur ton channel Slack ?</p>
               <p>C'est par ici !</p>

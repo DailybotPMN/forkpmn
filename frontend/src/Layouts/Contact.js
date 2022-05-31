@@ -3,16 +3,23 @@ import emailjs from '@emailjs/browser';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import '../Styles/secondaryPages.css';
+
 require('dotenv').config();
 
 const Contact = () => {
-    console.log(process.env.EMAILJS_PUBLIC_KEY)
+    
     const form = useRef();
 
     const sendEmail = (e) => {
+
         e.preventDefault();
         
-        emailjs.sendForm(process.env.EMAILJS_PUBLIC_KEY, process.env.EMAILJS_TEMPLATE_ID, form.current, process.env.EMAILJS_SERVICE_ID)
+        emailjs.sendForm(
+            'service_ite0d4g',
+            'template_m1iy938', 
+            form.current, 
+            'ZBhwALYGxfOy88FhY', 
+        )
         .then((result) => {
             console.log(result.text);
         }, (error) => {
@@ -32,7 +39,7 @@ const Contact = () => {
                         <input type="email" name="user_email" />
                         <label>Message</label>
                         <textarea name="message" />
-                        <input type="submit" value="Send" />
+                        <input type="submit" value="Send" className='submit'/>
                     </form>
                 </div>
                 <Footer/>
