@@ -31,6 +31,7 @@ const mysql = require('mysql');
 const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS] });
 
 bot.commands = new Collection();
+const privateMessage = require('./private-message.js')
 
 
 // Connexion DB
@@ -78,30 +79,21 @@ for (const file of eventFiles) {
     }
 }
 
-privateMessage(bot, 'ping', 'Pong!')
 
+bot.on('ready', () => {
+    console.log('The client is ready!')
+  
+    privateMessage(bot, 'ping', 'Pong!')
+  
+    bot.users.fetch('232187820272386048').then((user) => {
+      user.send('Hello World!')
+    })
+  })
 
-//pour que le bot envoi un message tous les jours sauf le weekend à 9h30
-const cron = require('cron');
-
-bot.once("ready", () => {
-    console.log(`Online as ${bot.user.tag}`);
-    // On le paramètre pour qu'il l'envoie tous les matins du lundi au vendredi à 09:30:00
-    let scheduledMessage = new cron.CronJob('00 04 18 * * 1-5', () => {
-    // ici on spécifie dans quel channel
-        const guild = bot.guilds.cache.get('id');
-        const channel = guild.channels.cache.get('id');
-        channel.send('Bonjour ! Es-tu prêt pour le point quotidien ?');
-    });
-        
-    scheduledMessage.start()
-});
-
-bot.on('messageCreate', (msg) => {
+  bot.on('messageCreate', msg => {
     if(msg.content === "Hi") {
         msg.channel.send('Hello')
     }
-});
-
+})
 
 bot.login(process.env.DISCORD_BOT_TOKEN)
