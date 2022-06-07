@@ -6,7 +6,8 @@ const db = new mysql.createConnection({
     host: config.BDD.host,
     password: config.BDD.password,
     user: config.BDD.user,
-    database: config.BDD.database
+    database: config.BDD.database,
+    port: config.BDD.port
 });
 
 module.exports= {

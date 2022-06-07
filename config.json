@@ -9,6 +9,7 @@
         "host": "127.0.0.1",
         "password":"",
         "user":"root",
-        "database":"botdiscord"
+        "database":"botdiscord",
+        "port": 3308
     }
 }

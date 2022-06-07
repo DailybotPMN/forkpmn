@@ -4,7 +4,7 @@ const path = require('path');
 require('dotenv').config();
 // var cookieParser = require('cookie-parser');
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 const app = express(); //on créé app pour démarrer express
 
@@ -81,7 +81,8 @@ const db = new mysql.createConnection({
     host: config.BDD.host,
     password: config.BDD.password,
     user: config.BDD.user,
-    database: config.BDD.database
+    database: config.BDD.database,
+    port: config.BDD.port
 });
 
 db.connect(function (err) {
