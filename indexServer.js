@@ -75,6 +75,7 @@ require('dotenv').config();
 const fs = require('fs');
 const mysql = require('mysql');
 bot.commands = new Collection();
+const privateMessage = require('./private-message.js')
 
 // Connexion DB
 const db = new mysql.createConnection({
@@ -123,8 +124,25 @@ for (const file of eventFiles) {
     }
 }
 
+bot.on('ready', () => {
+    console.log('The client is ready!')
+  
+    privateMessage(bot, 'ping', 'Pong!')
+  
+    bot.users.fetch('232187820272386048').then((user) => {
+      user.send('Hello World!')
+    })
+  })
+
+  bot.on('messageCreate', msg => {
+    if(msg.content === "Hi") {
+        msg.channel.send('Hello')
+    }
+})
 
 bot.login(process.env.DISCORD_BOT_TOKEN)
+
+
 
 /*------------------------------------BOT SLACK------------------------------------*/
 
