@@ -7,8 +7,10 @@ export default function Navbar() {
   return (
     <div className='navBar'>
         <div className='logo'>
-        <img src='/icon.png' alt='logo.png' className='logoNav' href='../Layouts/Home.js'>
+        <a href="/" rel="nofollow noopener noreferrer">
+        <img src='/icon.png' alt='logo.png' className='logoNav'>
         </img>
+        </a>
         </div>
         <Navigation/>
         <Burger/>

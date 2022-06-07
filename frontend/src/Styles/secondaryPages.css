@@ -1,0 +1,66 @@
+
+.secondaryPages {
+    display: flex;
+    flex-direction: column;
+    background-color: #282c34;
+}
+
+.vh {
+    height: 70vh;
+    justify-content: center;
+}
+
+.discordButton {
+    margin: 20px auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 100px;
+    color: aliceblue;
+}
+
+.submit {
+    margin: 10px;
+    width: 177px;
+}
+
+textarea {
+    width: 177px;
+    height: 25vh;
+}
+
+.description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 60%;
+    padding: 30px;
+    color: aliceblue;
+    margin: 0 auto ;
+}
+
+@media screen and (min-width: 750px) {
+    form {
+        align-items: unset;
+        padding: 50px 100px;
+    }
+
+    .submit {
+        margin: 20px auto ;
+        padding: 10px;
+        
+    }
+    
+    textarea {
+        width: inherit;
+    }
+
+    label {
+        margin: 10px 0;
+    }
+}

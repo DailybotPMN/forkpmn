@@ -1,1 +1,6 @@
 GET http://localhost:5000/api
+
+# POST https://hooks.slack.com/services/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
+# Content-Type: application/json {
+#     "text": "Test"
+# }

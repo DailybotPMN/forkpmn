@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import Footer from '../Components/Footer';
 import Navbar from '../Components/Navbar';
 import '../Styles/button.css';
+import '../Styles/secondaryPages.css';
 
  const Discord = () => {
     const [message, setMsg] = useState('');
@@ -41,17 +43,24 @@ import '../Styles/button.css';
     return (
         <div className='discordPage'>
           <Navbar/>
-          <div className='secondaryPages'>
-            <button className='button' onClick={handleClick}>
+          <div className='secondaryPages vh'>
+            <div className='description'>
+                <p>Tu veux téléchargez le bot afin qu'il t'aide au quotidien sur ton channel Discord ?</p>
+                <p>C'est par ici !</p>
+              </div>
+            <button className='button discordButton' onClick={handleClick}>
                 <div className='pattern'>
                 <div className='target inner bg1'></div>
                 </div>
                 <div className='text'>
+                  <a href="https://discord.com/api/oauth2/authorize?client_id=983640856600920124&permissions=8&scope=bot">
                 Téléchargez Discord
+                </a>
                 </div>
             </button>
             <p>{message}</p>
             </div>
+            <Footer/>
         </div>
     )
 }
