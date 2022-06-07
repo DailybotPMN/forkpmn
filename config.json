@@ -1,0 +1,14 @@
+{
+    "client": {
+        "prefix": "!",
+        "activity": "EN DEV",
+        "name": "Test",
+        "logo":"https://play-lh.googleusercontent.com/Ca4n6DqVCa5M09h3dxGNXNOMXRshdqtDVcgGMbntrY6kDliwTaWuarZxEJNScZYS7tU"
+    },
+    "BDD":{
+        "host": "127.0.0.1",
+        "password":"",
+        "user":"root",
+        "database":"botdiscord"
+    }
+}

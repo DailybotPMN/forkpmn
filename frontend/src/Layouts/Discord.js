@@ -53,7 +53,9 @@ import '../Styles/secondaryPages.css';
                 <div className='target inner bg1'></div>
                 </div>
                 <div className='text'>
+                  <a href="https://discord.com/api/oauth2/authorize?client_id=983640856600920124&permissions=8&scope=bot">
                 Téléchargez Discord
+                </a>
                 </div>
             </button>
             <p>{message}</p>

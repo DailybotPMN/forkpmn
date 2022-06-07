@@ -36,7 +36,7 @@ const Home = () => {
         
         <img className='icon' src='/icon.png' alt='bot-img'/>
 
-        <button className='button'>
+        {/* <button className='button'>
             <div className='pattern'>
               <div className='target inner bg1'></div>
             </div>
@@ -45,7 +45,7 @@ const Home = () => {
                   Téléchargez sur Slack
               </div>
             </NavLink>
-        </button>
+        </button> */}
 
         <button className='button'>
             <div className='pattern'>
