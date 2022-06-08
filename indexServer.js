@@ -21,7 +21,7 @@ app.listen(PORT, () => {
 })
 /*------------------------------------BOT DISCORD ------------------------------------*/
 
-const { Client, Intents, Collection } = require('discord.js');
+const { Client, Intents, Collection, Interaction } = require('discord.js');
 const config = require('./config.json');
 require('dotenv').config();
 const fs = require('fs');
@@ -100,10 +100,10 @@ const cron = require('cron');
 bot.on("ready", () => {
     console.log(`Online as ${bot.user.tag}`);
     // On le paramètre pour qu'il l'envoie tous les matins du lundi au vendredi à 09:30:00
-    let scheduledMessage = new cron.CronJob('00 59 10 * * 1-5', () => {
+    let scheduledMessage = new cron.CronJob('00 21 11 * * 1-5', () => {
         console.log("evenement ok")
         //envoie aux utilisateurs dans le mm canal
-        const utilisateur = bot.users.fetch('232187820272386048' && '828905808674291712');
+        const utilisateur = bot.users.fetch('828905808674291712' && '232187820272386048');
         utilisateur.then((user) => {
             user.send('Bonjour ! Es-tu prêt pour le point quotidien ? \n Réponse attendue : \n Oui    Non') 
         })
@@ -121,5 +121,54 @@ bot.on("ready", () => {
         }
     });
 });
+
+
+
+
+const Discord = require("discord.js");
+bot.on("messageCreate", message => {
+    if(message.content === "bouton"){
+        var row = new Discord.MessageActionRow()
+            .addComponents(new Discord.MessageButton()
+                .setCustomId("bouton1")
+                .setLabel("appuyez")
+                .setStyle("Danger")
+                .setEmoji("👌")
+            );
+            message.channel.send({content: "message avec bouton", components: [row]});
+    }
+
+});
+
+    bot.on("interactionCreate", Interaction => {
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 bot.login(process.env.DISCORD_BOT_TOKEN)
