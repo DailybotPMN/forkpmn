@@ -105,7 +105,7 @@ bot.on("ready", () => {
     const managerChannel = bot.channels.fetch('984056394573549661'); //id serveur manager
 
     // On le paramètre pour qu'il l'envoie tous les matins du lundi au vendredi à 09:30:00
-    let scheduledMessage = new cron.CronJob('00 02 16 * * 1-5', () => {
+    let scheduledMessage = new cron.CronJob('30 29 16 * * 1-5', () => {
         console.log("evenement ok")
         //envoie à l'utilisateur un message:
         PrivateChannel.then((user) => {
@@ -115,31 +115,33 @@ bot.on("ready", () => {
     scheduledMessage.start()
 
 
-
-
-    bot.on('messageCreate', msg => {
-
+    bot.on('message', msg => {
+        
+        console.log('message reçu');
         if (msg.content === 'non') {
-
             msg.channel.send('Très bien, à bientôt alors !');
-            console.log(reponse1)
-        } 
-        else if (msg.content === 'oui') {
-
-            msg.channel.send('C\'est parti ! \n \n Peux-tu m\'indiquer ton avancée d\'hier, ton planning pour aujourd\'hui et tes éventuelles difficultés ?\n \n (Merci de commmencer votre reponse par le mot : hier)');
-            console.log(reponse2)
+            // console.log(reponse1)
         }
+
+        else if (msg.content === 'oui') {
+            msg.channel.send('C\'est parti ! \n \n Peux-tu m\'indiquer ton avancée d\'hier, ton planning pour aujourd\'hui et tes éventuelles difficultés ?\n \n (Merci de commmencer votre reponse par le mot : hier)');
+            // console.log(reponse2)
+        }
+
         else if (msg.content.startsWith('hier')) {
+
             var reponse3 = msg.content;
             msg.channel.send('Un grand merci pour ces informations !\n A demain pour le prochain point !')
             console.log(reponse3)
-        };
-        managerChannel.then((user) => {
-            user.send('Hello ! Voici ce que ' + user.id + ' à repondu pour aujourd\'hui :\n ' + reponse3); 
-        });
-        
-    });
 
+            managerChannel.then((user) => {
+                console.log(bot)
+                // console.log(id)
+
+                user.send('Hello ! Voici ce que ' + bot.user + ' à repondu pour aujourd\'hui :\n ' + reponse3); 
+            });
+        };
+    });
 });
 
 bot.login(process.env.DISCORD_BOT_TOKEN)
