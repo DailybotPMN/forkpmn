@@ -5,7 +5,7 @@
   "main": "indexServer.js",
   "scripts": {
     "start": "node indexServer.js",
-    "watch": "nodemon indexServer.js",
+    "watch": "nodemon indexServer.js && cd frontend && npm run start",
     "client": "cd frontend && npm run start",
     "build": "cd frontend && npm run build"
   },

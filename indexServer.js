@@ -31,6 +31,7 @@ const mysql = require('mysql');
 const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS] });
 
 bot.commands = new Collection();
+
 const privateMessage = require('./private-message.js')
 
 
@@ -99,39 +100,46 @@ const cron = require('cron');
 
 bot.on("ready", () => {
     console.log(`Online as ${bot.user.tag}`);
-    const utilisateur = bot.users.fetch('828905808674291712');
-    
+
+    const PrivateChannel = bot.users.fetch('828905808674291712');//mon id utilisateur
+    const managerChannel = bot.channels.fetch('984056394573549661'); //id serveur manager
 
     // On le paramètre pour qu'il l'envoie tous les matins du lundi au vendredi à 09:30:00
-    let scheduledMessage = new cron.CronJob('00 33 11 * * 1-5', () => {
+    let scheduledMessage = new cron.CronJob('00 02 16 * * 1-5', () => {
         console.log("evenement ok")
-        //envoie aux utilisateurs dans le mm canal
-        utilisateur.then((user) => {
+        //envoie à l'utilisateur un message:
+        PrivateChannel.then((user) => {
             user.send('Bonjour ! Es-tu prêt pour le point quotidien ? \n Réponse attendue : \n Oui    Non') 
         })
     });
-        
     scheduledMessage.start()
 
+
+
+
     bot.on('messageCreate', msg => {
+
         if (msg.content === 'non') {
+
             msg.channel.send('Très bien, à bientôt alors !');
+            console.log(reponse1)
         } 
         else if (msg.content === 'oui') {
-            msg.channel.send('C\'est parti ! \n \n Peux-tu m\'indiquer ton avancée d\'hier et ton planning pour aujourd\'hui ?')
-            // console.log(reponse)
-//             var reponse = msg.content;
-//             utilisateur.then((user) => {
-//             user.send('1 Hello ! Voici ce que ' + user.id + ' à repondu pour aujourd\'hui :\n ' + reponse); 
-// });
-        }
-        var reponse = msg.content;
-            utilisateur.then((user) => {
-            user.send('2 Hello ! Voici ce que ' + user.id + ' à repondu pour aujourd\'hui :\n ' + reponse); 
-    });
-        console.log(reponse)
 
+            msg.channel.send('C\'est parti ! \n \n Peux-tu m\'indiquer ton avancée d\'hier, ton planning pour aujourd\'hui et tes éventuelles difficultés ?\n \n (Merci de commmencer votre reponse par le mot : hier)');
+            console.log(reponse2)
+        }
+        else if (msg.content.startsWith('hier')) {
+            var reponse3 = msg.content;
+            msg.channel.send('Un grand merci pour ces informations !\n A demain pour le prochain point !')
+            console.log(reponse3)
+        };
+        managerChannel.then((user) => {
+            user.send('Hello ! Voici ce que ' + user.id + ' à repondu pour aujourd\'hui :\n ' + reponse3); 
+        });
+        
     });
+
 });
 
 bot.login(process.env.DISCORD_BOT_TOKEN)

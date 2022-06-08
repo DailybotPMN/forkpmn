@@ -13,6 +13,6 @@ const db = new mysql.createConnection({
 module.exports= {
     name: 'messageCreate',
     execute(message) {
-        db.query(`INSERT INTO message (guildId, userId, message, username) VALUES ("${message.guild.id}", "${message.author.id}", "${message.content}", "${message.author.username}")`)
+        db.query(`INSERT INTO message (guildId, channelId, userId, message, username) VALUES ("${message.guild.id}", "${message.channel.id}", "${message.author.id}", "${message.content}", "${message.author.username}")`)
     }
 }
