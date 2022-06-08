@@ -79,21 +79,47 @@ for (const file of eventFiles) {
     }
 }
 
-
 bot.on('ready', () => {
     console.log('The client is ready!')
-  
     privateMessage(bot, 'ping', 'Pong!')
-  
-    bot.users.fetch('232187820272386048').then((user) => {
-      user.send('Hello World!')
-    })
-  })
+    // bot.users.fetch('232187820272386048').then((user) => {
+    //     user.send('Hello World!')
+    // })
+})
 
-  bot.on('messageCreate', msg => {
+bot.on('messageCreate', msg => {
     if(msg.content === "Hi") {
         msg.channel.send('Hello')
     }
 })
+
+//pour que le bot envoi un message tous les jours sauf le weekend à 9h30
+const cron = require('cron');
+// const message = require('./events/message');
+
+bot.on("ready", () => {
+    console.log(`Online as ${bot.user.tag}`);
+    // On le paramètre pour qu'il l'envoie tous les matins du lundi au vendredi à 09:30:00
+    let scheduledMessage = new cron.CronJob('00 59 10 * * 1-5', () => {
+        console.log("evenement ok")
+        //envoie aux utilisateurs dans le mm canal
+        const utilisateur = bot.users.fetch('232187820272386048' && '828905808674291712');
+        utilisateur.then((user) => {
+            user.send('Bonjour ! Es-tu prêt pour le point quotidien ? \n Réponse attendue : \n Oui    Non') 
+        })
+        // if
+    });
+        
+    scheduledMessage.start()
+
+    bot.on('messageCreate', msg => {
+        if (msg.content === 'non') {
+            msg.channel.send('Très bien, à bientôt alors !');
+        } 
+        else if (msg.content === 'oui') {
+            msg.channel.send('C\'est parti ! \n \n Peux-tu m\'indiquer ton avancée d\'hier et ton planning pour aujourd\'hui ?')
+        }
+    });
+});
 
 bot.login(process.env.DISCORD_BOT_TOKEN)
