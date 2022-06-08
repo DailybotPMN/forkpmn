@@ -99,15 +99,16 @@ const cron = require('cron');
 
 bot.on("ready", () => {
     console.log(`Online as ${bot.user.tag}`);
+    const utilisateur = bot.users.fetch('828905808674291712');
+    
+
     // On le paramètre pour qu'il l'envoie tous les matins du lundi au vendredi à 09:30:00
-    let scheduledMessage = new cron.CronJob('00 59 10 * * 1-5', () => {
+    let scheduledMessage = new cron.CronJob('00 33 11 * * 1-5', () => {
         console.log("evenement ok")
         //envoie aux utilisateurs dans le mm canal
-        const utilisateur = bot.users.fetch('232187820272386048' && '828905808674291712');
         utilisateur.then((user) => {
             user.send('Bonjour ! Es-tu prêt pour le point quotidien ? \n Réponse attendue : \n Oui    Non') 
         })
-        // if
     });
         
     scheduledMessage.start()
@@ -118,7 +119,18 @@ bot.on("ready", () => {
         } 
         else if (msg.content === 'oui') {
             msg.channel.send('C\'est parti ! \n \n Peux-tu m\'indiquer ton avancée d\'hier et ton planning pour aujourd\'hui ?')
+            // console.log(reponse)
+//             var reponse = msg.content;
+//             utilisateur.then((user) => {
+//             user.send('1 Hello ! Voici ce que ' + user.id + ' à repondu pour aujourd\'hui :\n ' + reponse); 
+// });
         }
+        var reponse = msg.content;
+            utilisateur.then((user) => {
+            user.send('2 Hello ! Voici ce que ' + user.id + ' à repondu pour aujourd\'hui :\n ' + reponse); 
+    });
+        console.log(reponse)
+
     });
 });
 
