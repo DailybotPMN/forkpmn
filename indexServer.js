@@ -1,4 +1,5 @@
 /*------------------------------------faire fonctionner le back node.js avec le front reactJS------------------------------------*/
+
 const express = require('express'); //import d'express
 const path = require('path');
 require('dotenv').config();
@@ -80,66 +81,54 @@ for (const file of eventFiles) {
     }
 }
 
-bot.on('ready', () => {
-    console.log('The client is ready!')
-    privateMessage(bot, 'ping', 'Pong!')
-    // bot.users.fetch('232187820272386048').then((user) => {
-    //     user.send('Hello World!')
-    // })
-})
 
-bot.on('messageCreate', msg => {
-    if(msg.content === "Hi") {
-        msg.channel.send('Hello')
-    }
-})
-
-//pour que le bot envoi un message tous les jours sauf le weekend à 9h30
+//on importe la librairie
 const cron = require('cron');
-// const message = require('./events/message');
 
 bot.on("ready", () => {
     console.log(`Online as ${bot.user.tag}`);
 
     const PrivateChannel = bot.users.fetch('828905808674291712');//mon id utilisateur
-    const managerChannel = bot.channels.fetch('984056394573549661'); //id serveur manager
+    const managerChannel = bot.channels.fetch('984126132997746720'); //id serveur manager
 
     // On le paramètre pour qu'il l'envoie tous les matins du lundi au vendredi à 09:30:00
-    let scheduledMessage = new cron.CronJob('00 02 16 * * 1-5', () => {
+    let scheduledMessage = new cron.CronJob('00 24 18 * * 1-5', () => {
         console.log("evenement ok")
+
         //envoie à l'utilisateur un message:
         PrivateChannel.then((user) => {
-            user.send('Bonjour ! Es-tu prêt pour le point quotidien ? \n Réponse attendue : \n Oui    Non') 
+            user.send('Hello ! n\'oublie pas d\'aller sur le channel de ta team et de lancer start pour lancer ton daily meeting') 
         })
     });
     scheduledMessage.start()
 
+    bot.on('message', msg => {
+        
 
-
-
-    bot.on('messageCreate', msg => {
-
-        if (msg.content === 'non') {
-
-            msg.channel.send('Très bien, à bientôt alors !');
-            console.log(reponse1)
-        } 
-        else if (msg.content === 'oui') {
-
-            msg.channel.send('C\'est parti ! \n \n Peux-tu m\'indiquer ton avancée d\'hier, ton planning pour aujourd\'hui et tes éventuelles difficultés ?\n \n (Merci de commmencer votre reponse par le mot : hier)');
-            console.log(reponse2)
+        if (msg.content === 'start') {
+            msg.channel.send('Bonjour ! Es-tu prêt pour le point quotidien ? \n Réponse attendue : \n Oui    Non');
         }
+
+        else if (msg.content === 'non') {
+            msg.channel.send('Très bien, à bientôt alors !');
+        }
+
+        else if (msg.content === 'oui') {
+            msg.channel.send('C\'est parti ! \n \n Peux-tu m\'indiquer ton avancée d\'hier, ton planning pour aujourd\'hui et tes éventuelles difficultés ?\n \n (Merci de commmencer votre reponse par le mot : hier)');
+        }
+
         else if (msg.content.startsWith('hier')) {
+
             var reponse3 = msg.content;
             msg.channel.send('Un grand merci pour ces informations !\n A demain pour le prochain point !')
-            console.log(reponse3)
-        };
-        managerChannel.then((user) => {
-            user.send('Hello ! Voici ce que ' + user.id + ' à repondu pour aujourd\'hui :\n ' + reponse3); 
-        });
-        
-    });
+            // console.log(reponse3)
 
+            managerChannel.then((user) => {
+
+                user.send('Hello ! Voici ce que ' + user + ' à repondu pour aujourd\'hui :\n ' + reponse3); 
+            });
+        };
+    });
 });
 
 bot.login(process.env.DISCORD_BOT_TOKEN)
