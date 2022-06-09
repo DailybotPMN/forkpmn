@@ -11,7 +11,7 @@ export default function Burger() {
         // console.log("ça click")
     }
 
-  return (
+    return (
     <div onClick={active_burger} className={`button_burger ${showLinks ? "active span" : ""}`}> 
             <span></span>
             <nav className={`nav_burger ${showLinks ? "burger-open" : "burger-close"}`}>
@@ -21,13 +21,13 @@ export default function Burger() {
             <NavLink to="/Discord" className="nav-active">
                 Discord
             </NavLink>
-            {/* <NavLink to="/Slack" className="nav-active">
+            <NavLink to="/Slack" className="nav-active">
                 Slack
-            </NavLink> */}
+            </NavLink>
             <NavLink to="/Contact" className="nav-active">
                 Contact
             </NavLink>
             </nav>
     </div>
-  )
+    )
 }

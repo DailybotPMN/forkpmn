@@ -10,9 +10,9 @@ const Navigation = () => {
 <NavLink to='/Discord' className='nav-active'>
     Discord
 </NavLink>
-{/* <NavLink to='/Slack' className='nav-active'>
+<NavLink to='/Slack' className='nav-active'>
     Slack
-</NavLink> */}
+</NavLink>
 <NavLink to='/Contact' className='nav-active'>
     Contact
 </NavLink>
