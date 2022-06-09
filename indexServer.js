@@ -23,7 +23,7 @@ app.listen(PORT, () => {
 /*------------------------------------BOT DISCORD ------------------------------------*/
 
 const { Client, Intents, Collection } = require('discord.js');
-const config = require('./config.json');
+const config = require('./backend/config.json');
 require('dotenv').config();
 const fs = require('fs');
 const mysql = require('mysql');
@@ -33,7 +33,7 @@ const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MES
 
 bot.commands = new Collection();
 
-const privateMessage = require('./private-message.js')
+// const privateMessage = require('./private-message.js')
 
 
 // Connexion DB
@@ -52,18 +52,18 @@ db.connect(function (err) {
 
 
 // Command Handler
-const commandFiles = fs.readdirSync('./commands/').filter(f => f.endsWith('.js'))
+const commandFiles = fs.readdirSync('./backend/commands/').filter(f => f.endsWith('.js'))
 for (const file of commandFiles) {
-    const props = require(`./commands/${file}`)
+    const props = require(`./backend/commands/${file}`)
     console.log(`La commandes ${file} est chargée avec succès !`)
     bot.commands.set(props.help.name, props)
 }
 
-const commandSubFolders = fs.readdirSync('./commands/').filter(f => !f.endsWith('.js'))
+const commandSubFolders = fs.readdirSync('./backend/commands/').filter(f => !f.endsWith('.js'))
 commandSubFolders.forEach(folder => {
-    const commandFiles = fs.readdirSync(`./commands/${folder}/`).filter(f => f.endsWith('.js'))
+    const commandFiles = fs.readdirSync(`./backend/commands/${folder}/`).filter(f => f.endsWith('.js'))
     for (const file of commandFiles) {
-        const props = require(`./commands/${folder}/${file}`)
+        const props = require(`./backend/commands/${folder}/${file}`)
         console.log(`La commandes ${file} est chargée avec succès depuis ${folder} !`)
         bot.commands.set(props.help.name, props)
     }
@@ -71,9 +71,9 @@ commandSubFolders.forEach(folder => {
 
 
 // Event Handler
-const eventFiles = fs.readdirSync('./events/').filter(f => f.endsWith('.js'))
+const eventFiles = fs.readdirSync('./backend/events/').filter(f => f.endsWith('.js'))
 for (const file of eventFiles) {
-    const event = require(`./events/${file}`)
+    const event = require(`./backend/events/${file}`)
     if(event.once) {
         bot.once(event.name, (...args) => event.execute(...args, bot))
     } else {
@@ -81,6 +81,13 @@ for (const file of eventFiles) {
     }
 }
 
+bot.on('ready', () => {
+    console.log('The client is ready!')
+    // privateMessage(bot, 'ping', 'Pong!')
+    // bot.users.fetch('232187820272386048').then((user) => {
+    //     user.send('Hello World!')
+    // })
+})
 
 //on importe la librairie
 const cron = require('cron');
@@ -132,3 +139,65 @@ bot.on("ready", () => {
 });
 
 bot.login(process.env.DISCORD_BOT_TOKEN)
+
+/*------------------------------------BOT SLACK------------------------------------*/
+
+//une fois l'application montée, le bot est connecté et communique avec le serveur
+const {App} = require('@slack/bolt');
+const { WebClient, LogLevel } = require('@slack/web-api');
+// const { FileInstallationStore } = require('@slack/oauth');
+
+require('dotenv').config();
+
+const botSlack = new App ({
+    token : process.env.SLACK_ACCESS_TOKEN,
+    signingSecret: process.env.SLACK_SIGNING_SECRET,
+    socketMode : true, //initialisation du socket mode pour recevoir
+    appToken : process.env.SOCKET_TOKEN,
+});
+
+const web = new WebClient(process.env.SLACK_BOT_TOKEN,{ logLevel: LogLevel.DEBUG});
+const channelId = process.env.SLACK_CHANNEL;
+
+
+//on lance le bot avec la methode start sur le port 3000 ou 5000 et on prevoit d'afficher le details de l'erreur dans le console
+(async () => {
+    await botSlack.start(process.env.PORT || 3000)
+    .catch(console.error)
+    //si tout fonctionne bien:
+    console.log("Slacki ok")
+    /*sendMessage(process.env.SLACK_CHANNEL, 'Bonjour !')*/
+})();
+
+
+/*
+async function publishMessage() {  
+    console.log("test1")
+    if (botSlack.message === 'hello') {
+        sendMessage (channelId, 'Comment puis-je t\'aider ?')
+    }
+    try {
+        console.log("test2")
+        const result2 = await web.chat.postMessage({
+            channel : channelId,
+            text : `Bonjour jeune Padawan`
+        });
+        // console.log(result2)
+        console.log("test3")
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+
+publishMessage(channelId, "");
+*/
+
+
+//on crée la fonction permettant d'envoyer un message lorsque le bot se connecte (est lancé)
+async function sendMessage (channel, message) {
+    await web.chat.postMessage({
+        channel: channel,
+        text: message,
+    })
+}
