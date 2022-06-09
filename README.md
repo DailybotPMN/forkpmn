@@ -43,6 +43,6 @@ _exemples :_
 
 ## Auteurs
 
-* **Apolline COSSART** _alias_ [ApoCos@](https://github.com/ApoCos)
-* **Tanguy GOURLIN** _alias_ [gestuko@](https://github.com/gestuko)
+* **Apolline COSSART** _alias_ [@ApoCos](https://github.com/ApoCos)
+* **Tanguy GOURLIN** _alias_ [@gestuko](https://github.com/gestuko)
 
