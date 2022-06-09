@@ -1,5 +1,6 @@
 /*------------------------------------faire fonctionner le back node.js avec le front reactJS------------------------------------*/
 
+
 const express = require('express'); //import d'express
 const path = require('path');
 require('dotenv').config();
@@ -20,7 +21,10 @@ app.get('/*', (req, res) => {
 app.listen(PORT, () => {
     console.log(`serveur lancé sur: http://localhost:${PORT}`)
 })
+
+
 /*------------------------------------BOT DISCORD ------------------------------------*/
+
 
 const { Client, Intents, Collection } = require('discord.js');
 const config = require('./backend/config.json');
@@ -81,13 +85,7 @@ for (const file of eventFiles) {
     }
 }
 
-bot.on('ready', () => {
-    console.log('The client is ready!')
-    // privateMessage(bot, 'ping', 'Pong!')
-    // bot.users.fetch('232187820272386048').then((user) => {
-    //     user.send('Hello World!')
-    // })
-})
+
 
 //on importe la librairie
 const cron = require('cron');
@@ -99,18 +97,17 @@ bot.on("ready", () => {
     const managerChannel = bot.channels.fetch('984126132997746720'); //id serveur manager
 
     // On le paramètre pour qu'il l'envoie tous les matins du lundi au vendredi à 09:30:00
-    let scheduledMessage = new cron.CronJob('00 24 18 * * 1-5', () => {
+    let scheduledMessage = new cron.CronJob('00 29 15 * * 1-5', () => {
         console.log("evenement ok")
 
         //envoie à l'utilisateur un message:
         PrivateChannel.then((user) => {
-            user.send('Hello ! n\'oublie pas d\'aller sur le channel de ta team et de lancer start pour lancer ton daily meeting') 
+            user.send('Hello ! n\'oublie pas d\'aller sur le channel de ta team et de rentrer la commande start pour lancer ton daily meeting') 
         })
     });
     scheduledMessage.start()
 
     bot.on('message', msg => {
-        
 
         if (msg.content === 'start') {
             msg.channel.send('Bonjour ! Es-tu prêt pour le point quotidien ? \n Réponse attendue : \n Oui    Non');
@@ -121,7 +118,7 @@ bot.on("ready", () => {
         }
 
         else if (msg.content === 'oui') {
-            msg.channel.send('C\'est parti ! \n \n Peux-tu m\'indiquer ton avancée d\'hier, ton planning pour aujourd\'hui et tes éventuelles difficultés ?\n \n (Merci de commmencer votre reponse par le mot : hier)');
+            msg.channel.send('C\'est parti ! \n \n Peux-tu m\'indiquer ton avancée d\'hier, ton planning pour aujourd\'hui et tes éventuelles difficultés ?\n \n (Merci de commmencer ta reponse par le mot : hier)');
         }
 
         else if (msg.content.startsWith('hier')) {
@@ -140,7 +137,9 @@ bot.on("ready", () => {
 
 bot.login(process.env.DISCORD_BOT_TOKEN)
 
+
 /*------------------------------------BOT SLACK------------------------------------*/
+
 
 //une fois l'application montée, le bot est connecté et communique avec le serveur
 const {App} = require('@slack/bolt');
@@ -170,7 +169,6 @@ const channelId = process.env.SLACK_CHANNEL;
 })();
 
 
-/*
 async function publishMessage() {  
     console.log("test1")
     if (botSlack.message === 'hello') {
@@ -191,7 +189,6 @@ async function publishMessage() {
 }
 
 publishMessage(channelId, "");
-*/
 
 
 //on crée la fonction permettant d'envoyer un message lorsque le bot se connecte (est lancé)
